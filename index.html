@@ -3,50 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Currency Converter</title>
+    <title>Quantum Exchange | Advanced Currency Converter</title>
+    <!-- Modern UI Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
-<body class="bg-primary vh-100 d-flex justify-content-center align-items-center">
+<body class="light-theme">
+    <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" class="theme-switch">
+        <label for="theme-switch" class="theme-switch-label">
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+            <span class="switch-handle"></span>
+        </label>
+    </div>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card p-4">
-                    <h3 class="text-center mb-4">Currency Converter</h3>
-                    <form>
-                        <label for="amount" class="form-label">Amount</label>
-                        <div class="input-group mb-3">
-                            <input type="number" class="form-control" placeholder="0.00" aria-label="Amount" id="amount">
-                        </div>
+    <div class="app-container">
+        <div class="background-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
 
-                        <div class="mb-3">
-                            <label for="fromCurrency" class="form-label">From</label>
-                            <select class="form-select" id="fromCurrency">
-                                
-                            </select>
-                        </div>
+        <header class="app-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <h1>Quantum Exchange</h1>
+            </div>
+            <div class="connection-status online">
+                <span class="status-dot"></span>
+                <span class="status-text">Live Rates</span>
+            </div>
+        </header>
 
-                        <div class="mb-3">
-                            <label for="toCurrency" class="form-label">To</label>
-                            <select class="form-select" id="toCurrency">
-                                
-                            </select>
-                        </div>
+        <main class="converter-card">
+            <div class="card-header">
+                <h2>Currency Converter</h2>
+                <div class="last-updated">
+                    <i class="fas fa-sync-alt"></i>
+                    <span id="update-time">Updated just now</span>
+                </div>
+            </div>
 
-                        <button class="btn btn-primary w-100" id="convertBtn" type="button">Convert</button>
-
-                        
-                    </form>
-
-                    <div class="mt-3">
-                        <h5 class="text-center" id="result"></h5>
+            <div class="converter-form">
+                <div class="amount-container glass-panel">
+                    <label for="amount">Amount</label>
+                    <div class="input-group">
+                        <input type="number" id="amount" value="1.00" min="0" step="0.01">
+                        <button class="mic-btn" id="voice-input">
+                            <i class="fas fa-microphone"></i>
+                        </button>
                     </div>
+                </div>
+
+                <div class="currencies-container">
+                    <div class="currency-selector from-currency glass-panel">
+                        <label for="fromCurrency">From</label>
+                        <div class="currency-dropdown" id="fromCurrencyDropdown">
+                            <div class="selected-currency" id="fromCurrencySelected">
+                                <img src="https://flagcdn.com/w40/us.png" class="flag-icon" id="fromFlag" alt="USD">
+                                <span class="currency-code" id="fromCurrencyCode">USD</span>
+                                <span class="currency-name" id="fromCurrencyName">US Dollar</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="currency-list-container">
+                                <div class="search-container">
+                                    <input type="text" placeholder="Search currency..." class="currency-search">
+                                </div>
+                                <ul class="currency-list" id="fromCurrencyList"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swap-button">
+                        <button id="swapCurrencies">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </div>
+
+                    <div class="currency-selector to-currency glass-panel">
+                        <label for="toCurrency">To</label>
+                        <div class="currency-dropdown" id="toCurrencyDropdown">
+                            <div class="selected-currency" id="toCurrencySelected">
+                                <img src="https://flagcdn.com/w40/eu.png" class="flag-icon" id="toFlag" alt="EUR">
+                                <span class="currency-code" id="toCurrencyCode">EUR</span>
+                                <span class="currency-name" id="toCurrencyName">Euro</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="currency-list-container">
+                                <div class="search-container">
+                                    <input type="text" placeholder="Search currency..." class="currency-search">
+                                </div>
+                                <ul class="currency-list" id="toCurrencyList"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="conversion-result glass-panel">
+                    <div class="result-animation">
+                        <div class="currency-flow">
+                            <span class="from-symbol">$</span>
+                            <div class="flow-particles"></div>
+                            <span class="to-symbol">€</span>
+                        </div>
+                    </div>
+                    <div class="result-details">
+                        <h3 id="result">1.00 USD ≈ 0.85 EUR</h3>
+                        <p id="rate-info">1 USD = 0.85 EUR</p>
+                    </div>
+                    <button class="convert-btn" id="convertBtn">
+                        <span>Convert</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="features-container">
+                <div class="tab-navigation">
+                    <button class="tab-btn active" data-tab="chart">
+                        <i class="fas fa-chart-line"></i> Chart
+                    </button>
+                    <button class="tab-btn" data-tab="compare">
+                        <i class="fas fa-list"></i> Compare
+                    </button>
+                    <button class="tab-btn" data-tab="favorites">
+                        <i class="fas fa-star"></i> Favorites
+                    </button>
+                </div>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="chart-tab">
+                        <div class="chart-container glass-panel">
+                            <div class="chart-header">
+                                <h4>Exchange Rate History</h4>
+                                <div class="chart-controls">
+                                    <button data-period="7d" class="period-btn active">7D</button>
+                                    <button data-period="1m" class="period-btn">1M</button>
+                                    <button data-period="3m" class="period-btn">3M</button>
+                                    <button data-period="1y" class="period-btn">1Y</button>
+                                </div>
+                            </div>
+                            <div class="chart-wrapper">
+                                <canvas id="exchangeRateChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="compare-tab">
+                        <div class="compare-container glass-panel">
+                            <h4>Compare Currencies</h4>
+                            <div class="comparison-table">
+                                <div class="comparison-header">
+                                    <span>Currency</span>
+                                    <span>Value</span>
+                                    <span>Change (24h)</span>
+                                </div>
+                                <div id="comparisonList" class="comparison-list">
+                                    <!-- Comparison items will be added here by JavaScript -->
+                                </div>
+                                <button class="add-currency-btn" id="addCurrencyBtn">
+                                    <i class="fas fa-plus"></i> Add Currency
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="favorites-tab">
+                        <div class="favorites-container glass-panel">
+                            <h4>Favorite Conversions</h4>
+                            <div id="favoritesList" class="favorites-list">
+                                <!-- Favorites will be added here by JavaScript -->
+                            </div>
+                            <div class="empty-favorites hidden">
+                                <i class="fas fa-star"></i>
+                                <p>No favorites yet</p>
+                                <p>Click the star icon when converting to add to favorites</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="qr-share">
+            <button id="qrShareBtn" class="qr-share-btn">
+                <i class="fas fa-qrcode"></i>
+                <span>Share</span>
+            </button>
+            <div class="qr-modal hidden" id="qrModal">
+                <div class="qr-modal-content glass-panel">
+                    <h4>Share Conversion</h4>
+                    <div id="qrcode"></div>
+                    <p id="qrShareText">1 USD to EUR</p>
+                    <button id="closeQrModal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    
+    <!-- Main scripts -->
+    <script src="./assets/js/constants.js" type="module"></script>
     <script src="./assets/js/main.js" type="module"></script>
 </body>
 </html>
